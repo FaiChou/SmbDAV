@@ -8,17 +8,40 @@
 
 /* Begin PBXBuildFile section */
 		4D0538532B3DB78C000D4193 /* SmbDAVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538522B3DB78C000D4193 /* SmbDAVApp.swift */; };
-		4D0538552B3DB78C000D4193 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538542B3DB78C000D4193 /* ContentView.swift */; };
 		4D0538572B3DB78D000D4193 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D0538562B3DB78D000D4193 /* Assets.xcassets */; };
 		4D05385A2B3DB78D000D4193 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D0538592B3DB78D000D4193 /* Preview Assets.xcassets */; };
+		4D05386F2B3DB801000D4193 /* VideoPlayerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538622B3DB801000D4193 /* VideoPlayerPage.swift */; };
+		4D0538702B3DB801000D4193 /* FileListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538632B3DB801000D4193 /* FileListPage.swift */; };
+		4D0538712B3DB801000D4193 /* DriveSetupPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538642B3DB801000D4193 /* DriveSetupPage.swift */; };
+		4D0538722B3DB801000D4193 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538652B3DB801000D4193 /* Home.swift */; };
+		4D0538732B3DB801000D4193 /* DriveListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538672B3DB801000D4193 /* DriveListModel.swift */; };
+		4D0538742B3DB801000D4193 /* DriveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538682B3DB801000D4193 /* DriveModel.swift */; };
+		4D0538752B3DB801000D4193 /* WebDAVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386A2B3DB801000D4193 /* WebDAVFile.swift */; };
+		4D0538762B3DB801000D4193 /* WebDAVError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386B2B3DB801000D4193 /* WebDAVError.swift */; };
+		4D0538772B3DB801000D4193 /* WebDAV+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386C2B3DB801000D4193 /* WebDAV+Image.swift */; };
+		4D0538782B3DB801000D4193 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386D2B3DB801000D4193 /* HTTPMethod.swift */; };
+		4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386E2B3DB801000D4193 /* WebDAV.swift */; };
+		4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 4D05387B2B3DB8B6000D4193 /* SWXMLHash */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4D05384F2B3DB78C000D4193 /* SmbDAV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmbDAV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D0538522B3DB78C000D4193 /* SmbDAVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbDAVApp.swift; sourceTree = "<group>"; };
-		4D0538542B3DB78C000D4193 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4D0538562B3DB78D000D4193 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D0538592B3DB78D000D4193 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4D0538602B3DB79C000D4193 /* SmbDAV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmbDAV.entitlements; sourceTree = "<group>"; };
+		4D0538612B3DB7CE000D4193 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4D0538622B3DB801000D4193 /* VideoPlayerPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerPage.swift; sourceTree = "<group>"; };
+		4D0538632B3DB801000D4193 /* FileListPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListPage.swift; sourceTree = "<group>"; };
+		4D0538642B3DB801000D4193 /* DriveSetupPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveSetupPage.swift; sourceTree = "<group>"; };
+		4D0538652B3DB801000D4193 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		4D0538672B3DB801000D4193 /* DriveListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveListModel.swift; sourceTree = "<group>"; };
+		4D0538682B3DB801000D4193 /* DriveModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveModel.swift; sourceTree = "<group>"; };
+		4D05386A2B3DB801000D4193 /* WebDAVFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAVFile.swift; sourceTree = "<group>"; };
+		4D05386B2B3DB801000D4193 /* WebDAVError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAVError.swift; sourceTree = "<group>"; };
+		4D05386C2B3DB801000D4193 /* WebDAV+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebDAV+Image.swift"; sourceTree = "<group>"; };
+		4D05386D2B3DB801000D4193 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		4D05386E2B3DB801000D4193 /* WebDAV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,8 +75,15 @@
 		4D0538512B3DB78C000D4193 /* SmbDAV */ = {
 			isa = PBXGroup;
 			children = (
+				4D0538612B3DB7CE000D4193 /* Info.plist */,
+				4D0538602B3DB79C000D4193 /* SmbDAV.entitlements */,
 				4D0538522B3DB78C000D4193 /* SmbDAVApp.swift */,
-				4D0538542B3DB78C000D4193 /* ContentView.swift */,
+				4D0538662B3DB801000D4193 /* Model */,
+				4D0538652B3DB801000D4193 /* Home.swift */,
+				4D0538642B3DB801000D4193 /* DriveSetupPage.swift */,
+				4D0538632B3DB801000D4193 /* FileListPage.swift */,
+				4D0538622B3DB801000D4193 /* VideoPlayerPage.swift */,
+				4D0538692B3DB801000D4193 /* WebDAV */,
 				4D0538562B3DB78D000D4193 /* Assets.xcassets */,
 				4D0538582B3DB78D000D4193 /* Preview Content */,
 			);
@@ -65,6 +96,27 @@
 				4D0538592B3DB78D000D4193 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4D0538662B3DB801000D4193 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4D0538682B3DB801000D4193 /* DriveModel.swift */,
+				4D0538672B3DB801000D4193 /* DriveListModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4D0538692B3DB801000D4193 /* WebDAV */ = {
+			isa = PBXGroup;
+			children = (
+				4D05386A2B3DB801000D4193 /* WebDAVFile.swift */,
+				4D05386B2B3DB801000D4193 /* WebDAVError.swift */,
+				4D05386C2B3DB801000D4193 /* WebDAV+Image.swift */,
+				4D05386D2B3DB801000D4193 /* HTTPMethod.swift */,
+				4D05386E2B3DB801000D4193 /* WebDAV.swift */,
+			);
+			path = WebDAV;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +135,9 @@
 			dependencies = (
 			);
 			name = SmbDAV;
+			packageProductDependencies = (
+				4D05387B2B3DB8B6000D4193 /* SWXMLHash */,
+			);
 			productName = SmbDAV;
 			productReference = 4D05384F2B3DB78C000D4193 /* SmbDAV.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +166,9 @@
 				Base,
 			);
 			mainGroup = 4D0538462B3DB78C000D4193;
+			packageReferences = (
+				4D05387A2B3DB8B6000D4193 /* XCRemoteSwiftPackageReference "SWXMLHash" */,
+			);
 			productRefGroup = 4D0538502B3DB78C000D4193 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,7 +195,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D0538552B3DB78C000D4193 /* ContentView.swift in Sources */,
+				4D0538762B3DB801000D4193 /* WebDAVError.swift in Sources */,
+				4D05386F2B3DB801000D4193 /* VideoPlayerPage.swift in Sources */,
+				4D0538732B3DB801000D4193 /* DriveListModel.swift in Sources */,
+				4D0538702B3DB801000D4193 /* FileListPage.swift in Sources */,
+				4D0538772B3DB801000D4193 /* WebDAV+Image.swift in Sources */,
+				4D0538712B3DB801000D4193 /* DriveSetupPage.swift in Sources */,
+				4D0538722B3DB801000D4193 /* Home.swift in Sources */,
+				4D0538782B3DB801000D4193 /* HTTPMethod.swift in Sources */,
+				4D0538752B3DB801000D4193 /* WebDAVFile.swift in Sources */,
+				4D0538742B3DB801000D4193 /* DriveModel.swift in Sources */,
+				4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */,
 				4D0538532B3DB78C000D4193 /* SmbDAVApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,12 +337,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmbDAV/SmbDAV.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SmbDAV/Preview Content\"";
 				DEVELOPMENT_TEAM = 7WS42S6435;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmbDAV/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -298,12 +368,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SmbDAV/SmbDAV.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SmbDAV/Preview Content\"";
 				DEVELOPMENT_TEAM = 7WS42S6435;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmbDAV/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -344,6 +416,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4D05387A2B3DB8B6000D4193 /* XCRemoteSwiftPackageReference "SWXMLHash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/drmohundro/SWXMLHash.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4D05387B2B3DB8B6000D4193 /* SWXMLHash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D05387A2B3DB8B6000D4193 /* XCRemoteSwiftPackageReference "SWXMLHash" */;
+			productName = SWXMLHash;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4D0538472B3DB78C000D4193 /* Project object */;
 }
