@@ -27,6 +27,7 @@ struct VideoPlayerPage: View {
             let playerItem = AVPlayerItem(asset: asset)
             player = AVPlayer(playerItem: playerItem)
             player?.play()
+            try! AVAudioSession.sharedInstance().setCategory(.playback)
         }
         .ignoresSafeArea()
     }
