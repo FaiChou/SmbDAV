@@ -12,7 +12,14 @@ struct FileListPage: View {
     let drive: DriveModel
     let path: String
     @State private var data: [WebDAVFile] = []
+    @State private var searchText = ""
     private let webdav: WebDAV
+    var filteredResult: [WebDAVFile] {
+        if searchText.isEmpty {
+            return data
+        }
+        return data.filter { $0.fileName.contains(searchText) }
+    }
     init(drive: DriveModel, path: String) {
         self.drive = drive
         self.path = path
@@ -23,7 +30,7 @@ struct FileListPage: View {
                         path: drive.path)
     }
     var body: some View {
-        List(data) { item in
+        List(filteredResult) { item in
             NavigationLink {
                 if item.isDirectory {
                     FileListPage(drive: drive, path: item.path)
@@ -60,6 +67,7 @@ struct FileListPage: View {
                 }
             }
         }
+        .searchable(text: $searchText)
         .refreshable {
             loadData()
         }
