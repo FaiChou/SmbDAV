@@ -8,7 +8,47 @@
 import Foundation
 import SWXMLHash
 
-class WebDAV {
+enum WebDAVError: Error {
+    /// The credentials or path were unable to be encoded.
+    /// No network request was called.
+    case invalidCredentials
+    /// The credentials were incorrect.
+    case unauthorized
+    /// The server was unable to store the data provided.
+    case insufficientStorage
+    /// The server does not support this feature.
+    case unsupported
+    /// Another unspecified Error occurred.
+    case nsError(Error)
+    /// The returned value is simply a placeholder.
+    case placeholder
+
+    static func getError(statusCode: Int?, error: Error?) -> WebDAVError? {
+        if let statusCode = statusCode {
+            switch statusCode {
+            case 200...299: // Success
+                return nil
+            case 401...403:
+                return .unauthorized
+            case 507:
+                return .insufficientStorage
+            default:
+                break
+            }
+        }
+    
+        if let error = error {
+            return .nsError(error)
+        }
+        return nil
+    }
+
+    static func getError(response: URLResponse?, error: Error?) -> WebDAVError? {
+        getError(statusCode: (response as? HTTPURLResponse)?.statusCode, error: error)
+    }
+}
+
+class WebDAV: SmbDAVDrive {
     var baseURL: URL
     var auth: String
     init(baseURL: String, port: Int, username: String? = nil, password: String? = nil, path: String? = nil) {
@@ -32,14 +72,14 @@ class WebDAV {
         let authData = authString.data(using: .utf8)
         self.auth = authData?.base64EncodedString() ?? ""
     }
-    public static func sortedFiles(_ files: [WebDAVFile], foldersFirst: Bool, includeSelf: Bool) -> [WebDAVFile] {
+    public static func sortedFiles(_ files: [SmbDAVFile]) -> [SmbDAVFile] {
         var files = files
-        if !includeSelf, !files.isEmpty {
+        // remove self
+        if !files.isEmpty {
             files.removeFirst()
         }
-        if foldersFirst {
-            files = files.filter { $0.isDirectory } + files.filter { !$0.isDirectory }
-        }
+        // folder first
+        files = files.filter { $0.isDirectory } + files.filter { !$0.isDirectory }
         files = files.filter { !$0.fileName.hasPrefix(".") }
         return files
     }
@@ -54,8 +94,8 @@ extension WebDAV {
             return false
         }
     }
-    func listFiles(atPath path: String, foldersFirst: Bool = true, includeSelf: Bool = false) async throws -> [WebDAVFile] {
-        guard var request = authorizedRequest(path: path, method: .propfind) else {
+    func listFiles(atPath path: String) async throws -> [SmbDAVFile] {
+        guard var request = authorizedRequest(path: path, method: "PROPFIND") else {
             throw WebDAVError.invalidCredentials
         }
         let body =
@@ -82,15 +122,15 @@ extension WebDAV {
                 config.shouldProcessNamespaces = true
             }.parse(string)
 //            print(xml)
-            let files = xml["multistatus"]["response"].all.compactMap { WebDAVFile(xml: $0, baseURL: self.baseURL, auth: self.auth) }
-            let sortedFiles = WebDAV.sortedFiles(files, foldersFirst: foldersFirst, includeSelf: includeSelf)
+            let files = xml["multistatus"]["response"].all.compactMap { SmbDAVFile(xml: $0, baseURL: self.baseURL, auth: self.auth) }
+            let sortedFiles = WebDAV.sortedFiles(files)
             return sortedFiles
         } catch {
             throw WebDAVError.nsError(error)
         }
     }
     func deleteFile(atPath path: String) async throws -> Bool {
-        guard let request = authorizedRequest(path: path, method: .delete) else {
+        guard let request = authorizedRequest(path: path, method: "DELETE") else {
             throw WebDAVError.invalidCredentials
         }
         do {
@@ -106,15 +146,10 @@ extension WebDAV {
 }
 
 extension WebDAV {
-    /// Creates an authorized URL request at the path and with the HTTP method specified.
-    /// - Parameters:
-    ///   - path: The path of the request
-    ///   - method: The HTTP Method for the request.
-    /// - Returns: The URL request if the credentials are valid (can be encoded as UTF-8).
-    func authorizedRequest(path: String, method: HTTPMethod) -> URLRequest? {
+    func authorizedRequest(path: String, method: String) -> URLRequest? {
         let url = self.baseURL.appendingPathComponent(path)
         var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
+        request.httpMethod = method
         request.setValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
         request.setValue("1", forHTTPHeaderField: "Depth")
         return request

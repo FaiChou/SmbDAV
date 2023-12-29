@@ -1,24 +1,24 @@
 //
-//  WebDAVFile.swift
-//  WebDAV-Swift
+//  SmbDAVFile.swift
+//  SmbDAV
 //
-//  Created by Isaac Lyons on 11/16/20.
+//  Created by 周辉 on 2023/12/29.
 //
 
 import Foundation
+import UIKit
 import SWXMLHash
 
-struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
-
-    public private(set) var path: String
-    public private(set) var id: String
-    public private(set) var isDirectory: Bool
-    public private(set) var lastModified: Date
-    public private(set) var size: Int64
-    public private(set) var url: URL
-    public private(set) var auth: String
-
-    init(path: String, id: String, isDirectory: Bool, lastModified: Date, size: Int64, url: URL, auth: String) {
+struct SmbDAVFile: Identifiable, Hashable, Equatable {
+    var path: String
+    var id: String
+    var isDirectory: Bool
+    var lastModified: Date
+    var size: Int64
+    var url: URL
+    var auth: String
+    var driveType: DriveType
+    init(path: String, id: String, isDirectory: Bool, lastModified: Date, size: Int64, url: URL, auth: String, driveType: DriveType) {
         self.path = path
         self.id = id
         self.isDirectory = isDirectory
@@ -26,6 +26,7 @@ struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
         self.size = size
         self.url = url
         self.auth = auth
+        self.driveType = driveType
     }
     init?(xml: XMLIndexer, baseURL: URL, auth: String) {
         /**
@@ -49,12 +50,12 @@ struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
         let properties = xml["propstat"][0]["prop"]
         guard var path = xml["href"].element?.text,
               let dateString = properties["getlastmodified"].element?.text,
-              let date = WebDAVFile.rfc1123Formatter.date(from: dateString) else { return nil }
+              let date = SmbDAVFile.rfc1123Formatter.date(from: dateString) else { return nil }
         let isDirectory = properties["getcontenttype"].element == nil
         if let decodedPath = path.removingPercentEncoding {
             path = decodedPath
         }
-        path = WebDAVFile.removing(endOf: baseURL.absoluteString, from: path)
+        path = SmbDAVFile.removing(endOf: baseURL.absoluteString, from: path)
         if path.first == "/" {
             path.removeFirst()
         }
@@ -63,17 +64,16 @@ struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
             size = Int64(sizeString) ?? 0
         }
         let url = baseURL.appendingPathComponent(path)
-        self.init(path: path, id: UUID().uuidString, isDirectory: isDirectory, lastModified: date, size: size, url: url, auth: auth)
+        self.init(path: path, id: UUID().uuidString, isDirectory: isDirectory, lastModified: date, size: size, url: url, auth: auth, driveType: .WebDAV)
     }
 
-    //MARK: Static
     static let rfc1123Formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
         return formatter
     }()
 
-    private static func removing(endOf string1: String, from string2: String) -> String {
+    static func removing(endOf string1: String, from string2: String) -> String {
         guard let first = string2.first else { return string2 }
         for (i, c) in string1.enumerated() {
             guard c == first else { continue }
@@ -84,24 +84,34 @@ struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
         }
         return string2
     }
-
-    //MARK: Public
-    public var description: String {
-        "WebDAVFile(path: \(path), id: \(id), isDirectory: \(isDirectory), lastModified: \(WebDAVFile.rfc1123Formatter.string(from: lastModified)), size: \(size))"
+    var description: String {
+        "SmbDAVFile(path: \(path), id: \(id), isDirectory: \(isDirectory), lastModified: \(lastModified.formatted()), size: \(size))"
     }
-    public var fileURL: URL {
+    var fileURL: URL {
         URL(fileURLWithPath: path)
     }
-    /// The file name including extension.
-    public var fileName: String {
+    var fileName: String {
         return fileURL.lastPathComponent
     }
-    /// The file extension.
-    public var `extension`: String {
+    var `extension`: String {
         fileURL.pathExtension
     }
-    /// The name of the file without its extension.
-    public var name: String {
+    var name: String {
         isDirectory ? fileName : fileURL.deletingPathExtension().lastPathComponent
+    }
+}
+
+extension SmbDAVFile {
+    func getImage() async -> UIImage? {
+        // TODO: check drive type
+        var request = URLRequest(url: self.url)
+        request.addValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching attchment") }
+            return UIImage(data: data)
+        } catch {
+            return nil
+        }
     }
 }

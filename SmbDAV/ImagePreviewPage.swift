@@ -16,10 +16,10 @@ struct Photo: Transferable {
 }
 
 struct ImagePreviewPage: View {
-    let item: WebDAVFile
+    let item: SmbDAVFile
     @State private var img: Photo?
     var body: some View {
-        AsyncImageWithAuth(file: item) { image in
+        SmbDAVAsyncImage(file: item) { image in
             image.resizable().scaledToFit().onAppear {
                 img = Photo(image: image, caption: item.fileName)
             }

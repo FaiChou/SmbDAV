@@ -89,6 +89,7 @@ struct DriveSetupPage: View {
         }
         showLoading = true
         Task {
+            // TODO: check drive type
             let webdav = WebDAV(baseURL: address,
                                 port: port,
                                 username: username,

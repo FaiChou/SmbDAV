@@ -15,7 +15,23 @@ struct Home: View {
         NavigationStack(path: $presentedPage) {
             List(model.drives, id: \.self) { item in
                 NavigationLink {
-                    FileListPage(drive: item, path: "/")
+                    switch item.driveType {
+                    case .WebDAV:
+                        FileListPage(drive: WebDAV(baseURL: item.address,
+                                                        port: item.port,
+                                                        username: item.username,
+                                                        password: item.password,
+                                                        path: item.path),
+                                     path: "/")
+                    case .smb:
+                        // TODO: smb
+                        FileListPage(drive: WebDAV(baseURL: item.address,
+                                                        port: item.port,
+                                                        username: item.username,
+                                                        password: item.password,
+                                                        path: item.path),
+                                     path: "/")
+                    }
                 } label: {
                     HStack {
                         Image(item.driveType == .WebDAV ? "webdav" : "samba")

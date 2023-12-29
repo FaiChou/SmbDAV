@@ -17,12 +17,11 @@
 		4D0538722B3DB801000D4193 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538652B3DB801000D4193 /* Home.swift */; };
 		4D0538732B3DB801000D4193 /* DriveListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538672B3DB801000D4193 /* DriveListModel.swift */; };
 		4D0538742B3DB801000D4193 /* DriveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538682B3DB801000D4193 /* DriveModel.swift */; };
-		4D0538752B3DB801000D4193 /* WebDAVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386A2B3DB801000D4193 /* WebDAVFile.swift */; };
-		4D0538762B3DB801000D4193 /* WebDAVError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386B2B3DB801000D4193 /* WebDAVError.swift */; };
-		4D0538772B3DB801000D4193 /* WebDAV+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386C2B3DB801000D4193 /* WebDAV+Image.swift */; };
-		4D0538782B3DB801000D4193 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386D2B3DB801000D4193 /* HTTPMethod.swift */; };
+		4D0538772B3DB801000D4193 /* SmbDAVAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */; };
 		4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386E2B3DB801000D4193 /* WebDAV.swift */; };
 		4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 4D05387B2B3DB8B6000D4193 /* SWXMLHash */; };
+		4DC498202B3EE43200CFD2A7 /* Drive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4981F2B3EE43200CFD2A7 /* Drive.swift */; };
+		4DC498222B3F11C200CFD2A7 /* SmbDAVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC498212B3F11C200CFD2A7 /* SmbDAVFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,11 +38,10 @@
 		4D0538652B3DB801000D4193 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		4D0538672B3DB801000D4193 /* DriveListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveListModel.swift; sourceTree = "<group>"; };
 		4D0538682B3DB801000D4193 /* DriveModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveModel.swift; sourceTree = "<group>"; };
-		4D05386A2B3DB801000D4193 /* WebDAVFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAVFile.swift; sourceTree = "<group>"; };
-		4D05386B2B3DB801000D4193 /* WebDAVError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAVError.swift; sourceTree = "<group>"; };
-		4D05386C2B3DB801000D4193 /* WebDAV+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WebDAV+Image.swift"; sourceTree = "<group>"; };
-		4D05386D2B3DB801000D4193 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmbDAVAsyncImage.swift; sourceTree = "<group>"; };
 		4D05386E2B3DB801000D4193 /* WebDAV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAV.swift; sourceTree = "<group>"; };
+		4DC4981F2B3EE43200CFD2A7 /* Drive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drive.swift; sourceTree = "<group>"; };
+		4DC498212B3F11C200CFD2A7 /* SmbDAVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbDAVFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +84,8 @@
 				4D0538632B3DB801000D4193 /* FileListPage.swift */,
 				4D0226DB2B3EBDE900E6A1E2 /* ImagePreviewPage.swift */,
 				4D0538622B3DB801000D4193 /* VideoPlayerPage.swift */,
-				4D0538692B3DB801000D4193 /* WebDAV */,
+				4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */,
+				4D05386E2B3DB801000D4193 /* WebDAV.swift */,
 				4D0538562B3DB78D000D4193 /* Assets.xcassets */,
 				4D0538582B3DB78D000D4193 /* Preview Content */,
 			);
@@ -104,22 +103,12 @@
 		4D0538662B3DB801000D4193 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4DC4981F2B3EE43200CFD2A7 /* Drive.swift */,
+				4DC498212B3F11C200CFD2A7 /* SmbDAVFile.swift */,
 				4D0538682B3DB801000D4193 /* DriveModel.swift */,
 				4D0538672B3DB801000D4193 /* DriveListModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		4D0538692B3DB801000D4193 /* WebDAV */ = {
-			isa = PBXGroup;
-			children = (
-				4D05386A2B3DB801000D4193 /* WebDAVFile.swift */,
-				4D05386B2B3DB801000D4193 /* WebDAVError.swift */,
-				4D05386C2B3DB801000D4193 /* WebDAV+Image.swift */,
-				4D05386D2B3DB801000D4193 /* HTTPMethod.swift */,
-				4D05386E2B3DB801000D4193 /* WebDAV.swift */,
-			);
-			path = WebDAV;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,15 +187,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D0538762B3DB801000D4193 /* WebDAVError.swift in Sources */,
 				4D05386F2B3DB801000D4193 /* VideoPlayerPage.swift in Sources */,
 				4D0538732B3DB801000D4193 /* DriveListModel.swift in Sources */,
 				4D0538702B3DB801000D4193 /* FileListPage.swift in Sources */,
-				4D0538772B3DB801000D4193 /* WebDAV+Image.swift in Sources */,
+				4DC498202B3EE43200CFD2A7 /* Drive.swift in Sources */,
+				4D0538772B3DB801000D4193 /* SmbDAVAsyncImage.swift in Sources */,
+				4DC498222B3F11C200CFD2A7 /* SmbDAVFile.swift in Sources */,
 				4D0538712B3DB801000D4193 /* DriveSetupPage.swift in Sources */,
 				4D0538722B3DB801000D4193 /* Home.swift in Sources */,
-				4D0538782B3DB801000D4193 /* HTTPMethod.swift in Sources */,
-				4D0538752B3DB801000D4193 /* WebDAVFile.swift in Sources */,
 				4D0226DC2B3EBDE900E6A1E2 /* ImagePreviewPage.swift in Sources */,
 				4D0538742B3DB801000D4193 /* DriveModel.swift in Sources */,
 				4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */,

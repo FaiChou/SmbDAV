@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct VideoPlayerPage: View {
-    let file: WebDAVFile
+    let file: SmbDAVFile
     @State private var player: AVPlayer?
     var body: some View {
         VStack {

@@ -9,27 +9,21 @@ import Foundation
 import SwiftUI
 
 struct FileListPage: View {
-    let drive: DriveModel
+    let drive: SmbDAVDrive
     let path: String
-    @State private var data: [WebDAVFile] = []
+    @State private var data: [SmbDAVFile] = []
     @State private var searchText = ""
-    private let webdav: WebDAV
     @State private var isConfirming = false
-    @State private var fileToBeDeleted: WebDAVFile?
-    var filteredResult: [WebDAVFile] {
+    @State private var fileToBeDeleted: SmbDAVFile?
+    var filteredResult: [SmbDAVFile] {
         if searchText.isEmpty {
             return data
         }
         return data.filter { $0.fileName.contains(searchText) }
     }
-    init(drive: DriveModel, path: String) {
+    init(drive: SmbDAVDrive, path: String) {
         self.drive = drive
         self.path = path
-        webdav = WebDAV(baseURL: drive.address,
-                        port: drive.port,
-                        username: drive.username,
-                        password: drive.password,
-                        path: drive.path)
     }
     var body: some View {
         List(filteredResult) { item in
@@ -104,17 +98,17 @@ struct FileListPage: View {
     private func loadData() {
         Task {
             do {
-                data = try await webdav.listFiles(atPath: path)
+                data = try await drive.listFiles(atPath: path)
             } catch {
                 print("error=\(error)")
             }
         }
     }
-    private func delete(file: WebDAVFile) {
+    private func delete(file: SmbDAVFile) {
         Task {
             do {
-                if try await webdav.deleteFile(atPath: file.path) {
-                    data = data.filter { $0 != file }
+                if try await drive.deleteFile(atPath: file.path) {
+                    data = data.filter { $0.id != file.id }
                 } else {
                     print("delete failed: \(file.fileName)")
                 }
