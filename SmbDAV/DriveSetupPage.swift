@@ -52,12 +52,8 @@ struct DriveSetupPage: View {
                         SecureField("Password", text: $password)
                     }
                     Section(header: Text("Advanced")) {
-                        #if os(macOS)
-                        TextField("Port", value: $port, formatter: NumberFormatter())
-                        #else
                         TextField("Port", value: $port, formatter: NumberFormatter())
                             .keyboardType(.numberPad)
-                        #endif
                         TextField("Path, eg: /subfolder", text: $path)
                     }
                     Button("Submit") {
