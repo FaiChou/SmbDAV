@@ -14,6 +14,8 @@ struct FileListPage: View {
     @State private var data: [WebDAVFile] = []
     @State private var searchText = ""
     private let webdav: WebDAV
+    @State private var isConfirming = false
+    @State private var fileToBeDeleted: WebDAVFile?
     var filteredResult: [WebDAVFile] {
         if searchText.isEmpty {
             return data
@@ -65,6 +67,33 @@ struct FileListPage: View {
                             .font(.caption)
                     }
                 }
+                .contextMenu {
+                    Button("Copy Name") {
+                        copyToClipboard(text: item.fileName)
+                    }
+                    Button("Delete", role: .destructive) {
+                        fileToBeDeleted = item
+                        isConfirming = true
+                    }
+                }
+            }
+            .swipeActions(edge: .trailing) {
+                Button(role: .destructive) {
+                    delete(file: item)
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+        }
+        .confirmationDialog(
+            "Are you sure you want to delete this file?",
+            isPresented: $isConfirming, presenting: fileToBeDeleted
+        ) { file in
+            Button("Delete", role: .destructive) {
+                delete(file: file)
+            }
+            Button("Cancel", role: .cancel) {
+                fileToBeDeleted = nil
             }
         }
         .searchable(text: $searchText)
@@ -84,5 +113,25 @@ struct FileListPage: View {
                 print("error=\(error)")
             }
         }
+    }
+    private func delete(file: WebDAVFile) {
+        Task {
+            do {
+                if try await webdav.deleteFile(atPath: file.path) {
+                    data = data.filter { $0 != file }
+                } else {
+                    print("delete failed: \(file.fileName)")
+                }
+            } catch {
+                print("error when delete \(file.fileName): \(error)")
+            }
+        }
+    }
+    private func copyToClipboard(text: String) {
+        if text.isEmpty {
+            return
+        }
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = text
     }
 }

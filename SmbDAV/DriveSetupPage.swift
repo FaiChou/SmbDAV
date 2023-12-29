@@ -57,32 +57,12 @@ struct DriveSetupPage: View {
                         TextField("Path, eg: /subfolder", text: $path)
                     }
                     Button("Submit") {
-                        guard !address.isEmpty else {
-                            showError = true
-                            return
-                        }
-                        showLoading = true
-                        Task {
-                            let webdav = WebDAV(baseURL: address,
-                                                port: port,
-                                                username: username,
-                                                password: password,
-                                                path: path)
-                            if await webdav.ping() {
-                                showLoading = false
-                                var drive = DriveModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, path: path)
-                                if let driveModel {
-                                    drive.id = driveModel.id
-                                    listModel.update(drive: drive)
-                                } else {
-                                    listModel.addDrive(drive)
-                                }
-                                dismiss()
-                            } else {
-                                showLoading = false
-                                showError = true
-                            }
-                        }
+                        handleSubmit()
+                    }
+                }
+                .onChange(of: driveType) { _, newValue in
+                    if newValue == .smb {
+                        port = 445 // default smb port
                     }
                 }
                 .alert(
@@ -101,5 +81,33 @@ struct DriveSetupPage: View {
             }
         }
         .navigationTitle("Drive Setup")
+    }
+    private func handleSubmit() {
+        guard !address.isEmpty else {
+            showError = true
+            return
+        }
+        showLoading = true
+        Task {
+            let webdav = WebDAV(baseURL: address,
+                                port: port,
+                                username: username,
+                                password: password,
+                                path: path)
+            if await webdav.ping() {
+                showLoading = false
+                var drive = DriveModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, path: path)
+                if let driveModel {
+                    drive.id = driveModel.id
+                    listModel.update(drive: drive)
+                } else {
+                    listModel.addDrive(drive)
+                }
+                dismiss()
+            } else {
+                showLoading = false
+                showError = true
+            }
+        }
     }
 }
