@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D0226DC2B3EBDE900E6A1E2 /* ImagePreviewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0226DB2B3EBDE900E6A1E2 /* ImagePreviewPage.swift */; };
 		4D0538532B3DB78C000D4193 /* SmbDAVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0538522B3DB78C000D4193 /* SmbDAVApp.swift */; };
 		4D0538572B3DB78D000D4193 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D0538562B3DB78D000D4193 /* Assets.xcassets */; };
 		4D05385A2B3DB78D000D4193 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D0538592B3DB78D000D4193 /* Preview Assets.xcassets */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D0226DB2B3EBDE900E6A1E2 /* ImagePreviewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewPage.swift; sourceTree = "<group>"; };
 		4D05384F2B3DB78C000D4193 /* SmbDAV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmbDAV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D0538522B3DB78C000D4193 /* SmbDAVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbDAVApp.swift; sourceTree = "<group>"; };
 		4D0538562B3DB78D000D4193 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				4D0538652B3DB801000D4193 /* Home.swift */,
 				4D0538642B3DB801000D4193 /* DriveSetupPage.swift */,
 				4D0538632B3DB801000D4193 /* FileListPage.swift */,
+				4D0226DB2B3EBDE900E6A1E2 /* ImagePreviewPage.swift */,
 				4D0538622B3DB801000D4193 /* VideoPlayerPage.swift */,
 				4D0538692B3DB801000D4193 /* WebDAV */,
 				4D0538562B3DB78D000D4193 /* Assets.xcassets */,
@@ -204,6 +207,7 @@
 				4D0538722B3DB801000D4193 /* Home.swift in Sources */,
 				4D0538782B3DB801000D4193 /* HTTPMethod.swift in Sources */,
 				4D0538752B3DB801000D4193 /* WebDAVFile.swift in Sources */,
+				4D0226DC2B3EBDE900E6A1E2 /* ImagePreviewPage.swift in Sources */,
 				4D0538742B3DB801000D4193 /* DriveModel.swift in Sources */,
 				4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */,
 				4D0538532B3DB78C000D4193 /* SmbDAVApp.swift in Sources */,

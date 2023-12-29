@@ -37,11 +37,7 @@ struct FileListPage: View {
                 if item.isDirectory {
                     FileListPage(drive: drive, path: item.path)
                 } else if item.extension == "png" {
-                    AsyncImageWithAuth(file: item) { image in
-                        image.resizable().scaledToFit()
-                    } placeholder: {
-                        Text(item.fileName)
-                    }
+                    ImagePreviewPage(item: item)
                 } else if item.extension == "mp4" {
                     VideoPlayerPage(file: item)
                 } else {
