@@ -16,19 +16,17 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     var lastModified: Date
     var size: Int64
     var url: URL
-    var auth: String
     var driveType: DriveType
-    init(path: String, id: String, isDirectory: Bool, lastModified: Date, size: Int64, url: URL, auth: String, driveType: DriveType) {
+    init(path: String, id: String, isDirectory: Bool, lastModified: Date, size: Int64, url: URL, driveType: DriveType) {
         self.path = path
         self.id = id
         self.isDirectory = isDirectory
         self.lastModified = lastModified
         self.size = size
         self.url = url
-        self.auth = auth
         self.driveType = driveType
     }
-    init?(xml: XMLIndexer, baseURL: URL, auth: String) {
+    init?(xml: XMLIndexer, baseURL: URL) {
         /**
          <D:response>
              <D:href>http://example.com/resource</D:href>
@@ -64,7 +62,33 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
             size = Int64(sizeString) ?? 0
         }
         let url = baseURL.appendingPathComponent(path)
-        self.init(path: path, id: UUID().uuidString, isDirectory: isDirectory, lastModified: date, size: size, url: url, auth: auth, driveType: .WebDAV)
+        self.init(path: path, id: UUID().uuidString, isDirectory: isDirectory, lastModified: date, size: size, url: url, driveType: .WebDAV)
+    }
+    init?(smbFile: [URLResourceKey: Any], baseURL: URL?) {
+        /**
+         print(
+             "name:", entry[.nameKey] as! String,
+             ", path:", entry[.pathKey] as! String,
+             ", type:", entry[.fileResourceTypeKey] as! URLFileResourceType,
+             ", size:", entry[.fileSizeKey] as! Int64,
+             ", modified:", entry[.contentModificationDateKey] as! Date,
+             ", created:", entry[.creationDateKey] as! Date)
+         */
+        guard let path = smbFile[.pathKey] as? String,
+              let size = smbFile[.fileSizeKey] as? Int64,
+              let isDirectory = smbFile[.isDirectoryKey] as? Bool,
+              let lastModified = smbFile[.contentModificationDateKey] as? Date,
+              let url = baseURL else {
+            return nil
+        }
+        self.init(path: path,
+                  id: UUID().uuidString,
+                  isDirectory: isDirectory,
+                  lastModified: lastModified,
+                  size: size,
+                  url: url.appendingPathComponent(path),
+                  driveType: .smb
+        )
     }
 
     static let rfc1123Formatter: DateFormatter = {
@@ -98,20 +122,5 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     }
     var name: String {
         isDirectory ? fileName : fileURL.deletingPathExtension().lastPathComponent
-    }
-}
-
-extension SmbDAVFile {
-    func getImage() async -> UIImage? {
-        // TODO: check drive type
-        var request = URLRequest(url: self.url)
-        request.addValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching attchment") }
-            return UIImage(data: data)
-        } catch {
-            return nil
-        }
     }
 }

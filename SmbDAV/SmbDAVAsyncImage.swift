@@ -10,14 +10,17 @@ import SwiftUI
 struct SmbDAVAsyncImage<Content: View, Placeholder: View>: View {
     @State var uiImage: UIImage?
     let file: SmbDAVFile
+    let drive: SmbDAVDrive
     let content: (Image) -> Content
     let placeholder: () -> Placeholder
     init(
         file: SmbDAVFile,
+        drive: SmbDAVDrive,
         @ViewBuilder content: @escaping (Image) -> Content,
         @ViewBuilder placeholder: @escaping () -> Placeholder
     ){
         self.file = file
+        self.drive = drive
         self.content = content
         self.placeholder = placeholder
     }
@@ -27,7 +30,7 @@ struct SmbDAVAsyncImage<Content: View, Placeholder: View>: View {
         } else {
             placeholder()
                 .task {
-                    self.uiImage = await file.getImage()
+                    self.uiImage = await drive.getImage(atPath: file.path)
                 }
         }
     }

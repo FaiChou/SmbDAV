@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 protocol SmbDAVDrive {
-    var baseURL: URL { get }
-    var auth: String { get }
     func ping() async -> Bool
     func listFiles(atPath path: String) async throws -> [SmbDAVFile]
     func deleteFile(atPath path: String) async throws -> Bool
+    func getImage(atPath path: String) async -> UIImage?
 }

@@ -18,18 +18,17 @@ struct Home: View {
                     switch item.driveType {
                     case .WebDAV:
                         FileListPage(drive: WebDAV(baseURL: item.address,
-                                                        port: item.port,
-                                                        username: item.username,
-                                                        password: item.password,
-                                                        path: item.path),
+                                                    port: item.port,
+                                                    username: item.username,
+                                                    password: item.password,
+                                                    path: item.path),
                                      path: "/")
                     case .smb:
-                        // TODO: smb
-                        FileListPage(drive: WebDAV(baseURL: item.address,
-                                                        port: item.port,
-                                                        username: item.username,
-                                                        password: item.password,
-                                                        path: item.path),
+                        FileListPage(drive: SMB(baseURL: item.address,
+                                                port: item.port,
+                                                username: item.username,
+                                                password: item.password,
+                                                path: item.path),
                                      path: "/")
                     }
                 } label: {

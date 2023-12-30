@@ -17,9 +17,10 @@ struct Photo: Transferable {
 
 struct ImagePreviewPage: View {
     let item: SmbDAVFile
+    let drive: SmbDAVDrive
     @State private var img: Photo?
     var body: some View {
-        SmbDAVAsyncImage(file: item) { image in
+        SmbDAVAsyncImage(file: item, drive: drive) { image in
             image.resizable().scaledToFit().onAppear {
                 img = Photo(image: image, caption: item.fileName)
             }

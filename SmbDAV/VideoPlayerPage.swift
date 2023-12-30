@@ -10,6 +10,7 @@ import AVKit
 
 struct VideoPlayerPage: View {
     let file: SmbDAVFile
+    let drive: SmbDAVDrive
     @State private var player: AVPlayer?
     var body: some View {
         VStack {
@@ -20,13 +21,16 @@ struct VideoPlayerPage: View {
             }
         }
         .onAppear {
-            let headers: [String: String] = [
-                "Authorization": "Basic \(file.auth)"
-            ]
-            let asset = AVURLAsset(url: file.url, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
-            let playerItem = AVPlayerItem(asset: asset)
-            player = AVPlayer(playerItem: playerItem)
-            player?.play()
+            if file.driveType == .WebDAV {
+                let webdav = drive as! WebDAV
+                let headers: [String: String] = [
+                    "Authorization": "Basic \(webdav.auth)"
+                ]
+                let asset = AVURLAsset(url: file.url, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
+                let playerItem = AVPlayerItem(asset: asset)
+                player = AVPlayer(playerItem: playerItem)
+                player?.play()
+            }
             try! AVAudioSession.sharedInstance().setCategory(.playback)
         }
         .ignoresSafeArea()

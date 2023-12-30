@@ -20,9 +20,26 @@
 		4D0538772B3DB801000D4193 /* SmbDAVAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */; };
 		4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386E2B3DB801000D4193 /* WebDAV.swift */; };
 		4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 4D05387B2B3DB8B6000D4193 /* SWXMLHash */; };
+		4D84B8142B40503000EFBED1 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = 4D84B8132B40503000EFBED1 /* AMSMB2 */; };
+		4D84B8162B40503F00EFBED1 /* SMB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D84B8152B40503F00EFBED1 /* SMB.swift */; };
+		4D84B8172B40677000EFBED1 /* AMSMB2 in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 4D84B8132B40503000EFBED1 /* AMSMB2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4DC498202B3EE43200CFD2A7 /* Drive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4981F2B3EE43200CFD2A7 /* Drive.swift */; };
 		4DC498222B3F11C200CFD2A7 /* SmbDAVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC498212B3F11C200CFD2A7 /* SmbDAVFile.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4D84B8182B40677000EFBED1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4D84B8172B40677000EFBED1 /* AMSMB2 in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4D0226DB2B3EBDE900E6A1E2 /* ImagePreviewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewPage.swift; sourceTree = "<group>"; };
@@ -40,6 +57,7 @@
 		4D0538682B3DB801000D4193 /* DriveModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveModel.swift; sourceTree = "<group>"; };
 		4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmbDAVAsyncImage.swift; sourceTree = "<group>"; };
 		4D05386E2B3DB801000D4193 /* WebDAV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAV.swift; sourceTree = "<group>"; };
+		4D84B8152B40503F00EFBED1 /* SMB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMB.swift; sourceTree = "<group>"; };
 		4DC4981F2B3EE43200CFD2A7 /* Drive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drive.swift; sourceTree = "<group>"; };
 		4DC498212B3F11C200CFD2A7 /* SmbDAVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbDAVFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -49,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D84B8142B40503000EFBED1 /* AMSMB2 in Frameworks */,
 				4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +105,7 @@
 				4D0538622B3DB801000D4193 /* VideoPlayerPage.swift */,
 				4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */,
 				4D05386E2B3DB801000D4193 /* WebDAV.swift */,
+				4D84B8152B40503F00EFBED1 /* SMB.swift */,
 				4D0538562B3DB78D000D4193 /* Assets.xcassets */,
 				4D0538582B3DB78D000D4193 /* Preview Content */,
 			);
@@ -121,6 +141,7 @@
 				4D05384B2B3DB78C000D4193 /* Sources */,
 				4D05384C2B3DB78C000D4193 /* Frameworks */,
 				4D05384D2B3DB78C000D4193 /* Resources */,
+				4D84B8182B40677000EFBED1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -129,6 +150,7 @@
 			name = SmbDAV;
 			packageProductDependencies = (
 				4D05387B2B3DB8B6000D4193 /* SWXMLHash */,
+				4D84B8132B40503000EFBED1 /* AMSMB2 */,
 			);
 			productName = SmbDAV;
 			productReference = 4D05384F2B3DB78C000D4193 /* SmbDAV.app */;
@@ -160,6 +182,7 @@
 			mainGroup = 4D0538462B3DB78C000D4193;
 			packageReferences = (
 				4D05387A2B3DB8B6000D4193 /* XCRemoteSwiftPackageReference "SWXMLHash" */,
+				4D84B8122B40503000EFBED1 /* XCRemoteSwiftPackageReference "AMSMB2" */,
 			);
 			productRefGroup = 4D0538502B3DB78C000D4193 /* Products */;
 			projectDirPath = "";
@@ -188,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D05386F2B3DB801000D4193 /* VideoPlayerPage.swift in Sources */,
+				4D84B8162B40503F00EFBED1 /* SMB.swift in Sources */,
 				4D0538732B3DB801000D4193 /* DriveListModel.swift in Sources */,
 				4D0538702B3DB801000D4193 /* FileListPage.swift in Sources */,
 				4DC498202B3EE43200CFD2A7 /* Drive.swift in Sources */,
@@ -418,6 +442,14 @@
 				minimumVersion = 7.0.2;
 			};
 		};
+		4D84B8122B40503000EFBED1 /* XCRemoteSwiftPackageReference "AMSMB2" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amosavian/AMSMB2";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -425,6 +457,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4D05387A2B3DB8B6000D4193 /* XCRemoteSwiftPackageReference "SWXMLHash" */;
 			productName = SWXMLHash;
+		};
+		4D84B8132B40503000EFBED1 /* AMSMB2 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D84B8122B40503000EFBED1 /* XCRemoteSwiftPackageReference "AMSMB2" */;
+			productName = AMSMB2;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

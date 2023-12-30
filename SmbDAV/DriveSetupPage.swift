@@ -89,20 +89,29 @@ struct DriveSetupPage: View {
         }
         showLoading = true
         Task {
-            // TODO: check drive type
-            let webdav = WebDAV(baseURL: address,
-                                port: port,
-                                username: username,
-                                password: password,
-                                path: path)
-            if await webdav.ping() {
+            var drive: SmbDAVDrive
+            switch driveType {
+            case .WebDAV:
+                drive = WebDAV(baseURL: address,
+                               port: port,
+                               username: username,
+                               password: password,
+                               path: path)
+            case .smb:
+                drive = SMB(baseURL: address,
+                               port: port,
+                               username: username,
+                               password: password,
+                               path: path)
+            }
+            if await drive.ping() {
                 showLoading = false
-                var drive = DriveModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, path: path)
+                var d = DriveModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, path: path)
                 if let driveModel {
-                    drive.id = driveModel.id
-                    listModel.update(drive: drive)
+                    d.id = driveModel.id
+                    listModel.update(drive: d)
                 } else {
-                    listModel.addDrive(drive)
+                    listModel.addDrive(d)
                 }
                 dismiss()
             } else {

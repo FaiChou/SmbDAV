@@ -7,6 +7,7 @@
 
 import Foundation
 import SWXMLHash
+import UIKit
 
 enum WebDAVError: Error {
     /// The credentials or path were unable to be encoded.
@@ -51,7 +52,7 @@ enum WebDAVError: Error {
 class WebDAV: SmbDAVDrive {
     var baseURL: URL
     var auth: String
-    init(baseURL: String, port: Int, username: String? = nil, password: String? = nil, path: String? = nil) {
+    init(baseURL: String, port: Int, username: String, password: String, path: String) {
         let processedBaseURL: String
         if baseURL.hasPrefix("http://") || baseURL.hasPrefix("https://") {
             processedBaseURL = baseURL
@@ -63,12 +64,12 @@ class WebDAV: SmbDAVDrive {
         if port != 80 && port != 443 {
             fullURLString += ":\(port)"
         }
-        if let path, !path.isEmpty {
+        if !path.isEmpty {
             let slashPrefixedPath = path.hasPrefix("/") ? path : "/\(path)"
             fullURLString += slashPrefixedPath
         }
         self.baseURL = URL(string: fullURLString)!
-        let authString = (username ?? "") + ":" + (password ?? "")
+        let authString = username + ":" + password
         let authData = authString.data(using: .utf8)
         self.auth = authData?.base64EncodedString() ?? ""
     }
@@ -122,7 +123,7 @@ extension WebDAV {
                 config.shouldProcessNamespaces = true
             }.parse(string)
 //            print(xml)
-            let files = xml["multistatus"]["response"].all.compactMap { SmbDAVFile(xml: $0, baseURL: self.baseURL, auth: self.auth) }
+            let files = xml["multistatus"]["response"].all.compactMap { SmbDAVFile(xml: $0, baseURL: self.baseURL) }
             let sortedFiles = WebDAV.sortedFiles(files)
             return sortedFiles
         } catch {
@@ -141,6 +142,18 @@ extension WebDAV {
             return 200...299 ~= response.statusCode
         } catch {
             throw WebDAVError.nsError(error)
+        }
+    }
+    func getImage(atPath path: String) async -> UIImage? {
+        let url = self.baseURL.appendingPathComponent(path)
+        var request = URLRequest(url: url)
+        request.addValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching attchment") }
+            return UIImage(data: data)
+        } catch {
+            return nil
         }
     }
 }

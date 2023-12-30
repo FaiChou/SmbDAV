@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "amsmb2",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/amosavian/AMSMB2",
+      "state" : {
+        "revision" : "3dcb33cbb7d8e3793af60152d9aa99651f71e3b2",
+        "version" : "3.3.0"
+      }
+    },
+    {
       "identity" : "swxmlhash",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/drmohundro/SWXMLHash.git",

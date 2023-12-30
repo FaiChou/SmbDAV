@@ -31,9 +31,9 @@ struct FileListPage: View {
                 if item.isDirectory {
                     FileListPage(drive: drive, path: item.path)
                 } else if item.extension == "png" {
-                    ImagePreviewPage(item: item)
+                    ImagePreviewPage(item: item, drive: drive)
                 } else if item.extension == "mp4" {
-                    VideoPlayerPage(file: item)
+                    VideoPlayerPage(file: item, drive: drive)
                 } else {
                     Text(item.fileName)
                 }
