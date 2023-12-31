@@ -65,6 +65,8 @@ struct DriveSetupPage: View {
                 .onChange(of: driveType) { _, newValue in
                     if newValue == .smb {
                         port = 445 // default smb port
+                    } else {
+                        port = 80
                     }
                 }
                 .alert(
