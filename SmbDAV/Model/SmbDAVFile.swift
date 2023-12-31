@@ -92,4 +92,10 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     var name: String {
         isDirectory ? fullName : fileURL.deletingPathExtension().lastPathComponent
     }
+    var isImage: Bool {
+        return ["png", "jpg", "jpeg"].contains { $0 == self.extension }
+    }
+    var isVideo: Bool {
+        return ["mkv", "mp4"].contains { $0 == self.extension }
+    }
 }

@@ -41,9 +41,9 @@ struct FileListPage: View {
             NavigationLink {
                 if item.isDirectory {
                     FileListPage(drive: drive, path: item.path)
-                } else if item.extension == "png" {
+                } else if item.isImage {
                     ImagePreviewPage(item: item, drive: drive)
-                } else if item.extension == "mp4" {
+                } else if item.isVideo {
                     VideoPlayerPage(file: item, drive: drive)
                 } else {
                     VStack {
