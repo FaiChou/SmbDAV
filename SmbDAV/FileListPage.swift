@@ -22,7 +22,7 @@ struct FileListPage: View {
             d = d.filter { $0.isDirectory } + d.filter { !$0.isDirectory }
         }
         if !settings.showHiddenFiles {
-            d = d.filter { !$0.fileName.hasPrefix(".") }
+            d = d.filter { !$0.name.hasPrefix(".") }
         }
         return d
     }
@@ -30,7 +30,7 @@ struct FileListPage: View {
         if searchText.isEmpty {
             return processedData
         }
-        return processedData.filter { $0.fileName.contains(searchText) }
+        return processedData.filter { $0.name.contains(searchText) }
     }
     init(drive: SmbDAVDrive, path: String) {
         self.drive = drive
@@ -46,7 +46,7 @@ struct FileListPage: View {
                 } else if item.extension == "mp4" {
                     VideoPlayerPage(file: item, drive: drive)
                 } else {
-                    Text(item.fileName)
+                    Text(item.name)
                 }
             } label: {
                 HStack {
@@ -56,7 +56,7 @@ struct FileListPage: View {
                         .frame(width: 30, height: 40)
                         .padding(.trailing, 5)
                     VStack(alignment: .leading) {
-                        Text(item.fileName)
+                        Text(item.name)
                         Text(item.lastModified.formatted())
                             .foregroundStyle(.secondary)
                             .font(.footnote)
@@ -70,7 +70,7 @@ struct FileListPage: View {
                 }
                 .contextMenu {
                     Button("Copy Name") {
-                        copyToClipboard(text: item.fileName)
+                        copyToClipboard(text: item.name)
                     }
                     Button("Delete", role: .destructive) {
                         fileToBeDeleted = item
@@ -133,10 +133,10 @@ struct FileListPage: View {
                 if try await drive.deleteFile(file: file) {
                     data = data.filter { $0.id != file.id }
                 } else {
-                    print("delete failed: \(file.fileName)")
+                    print("delete failed: \(file.name)")
                 }
             } catch {
-                print("error when delete \(file.fileName): \(error)")
+                print("error when delete \(file.name): \(error)")
             }
         }
     }

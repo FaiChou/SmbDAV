@@ -34,6 +34,9 @@ struct DriveInfoModel: Identifiable, Codable, Hashable, Equatable {
             let slashPrefixedPath = subfolder.hasPrefix("/") ? subfolder : "/\(subfolder)"
             address += slashPrefixedPath
         }
+        if !username.isEmpty {
+            address = "\(username)@\(address)"
+        }
         return address
     }
 }

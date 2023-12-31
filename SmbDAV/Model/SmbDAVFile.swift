@@ -80,7 +80,7 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     var description: String {
         "SmbDAVFile(path: \(path), id: \(id), isDirectory: \(isDirectory), lastModified: \(lastModified.formatted()), size: \(size))"
     }
-    var fileURL: URL {
+    private var fileURL: URL {
         URL(fileURLWithPath: path)
     }
     var fileName: String {

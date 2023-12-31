@@ -22,10 +22,10 @@ struct ImagePreviewPage: View {
     var body: some View {
         SmbDAVAsyncImage(file: item, drive: drive) { image in
             image.resizable().scaledToFit().onAppear {
-                img = Photo(image: image, caption: item.fileName)
+                img = Photo(image: image, caption: item.name)
             }
         } placeholder: {
-            Text(item.fileName)
+            Text(item.name)
         }
         .toolbar {
             if let photo = img {

@@ -17,7 +17,7 @@ struct VideoPlayerPage: View {
             if let player {
                 VideoPlayer(player: player)
             } else {
-                Text(file.fileName)
+                Text(file.name)
             }
         }
         .onAppear {

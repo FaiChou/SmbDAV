@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+
 class SettingsModel: ObservableObject {
     static let shared = SettingsModel()
     @AppStorage("ShowHiddenFiles") var showHiddenFiles = false

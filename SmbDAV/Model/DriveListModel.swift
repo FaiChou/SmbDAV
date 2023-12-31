@@ -35,9 +35,6 @@ class DriveListModel: ObservableObject {
             self.drives.append(drive)
         }
     }
-    func clearAll() {
-        self.drives = []
-    }
     func delete(drive: DriveInfoModel) {
         self.drives = self.drives.filter { $0 != drive }
     }
