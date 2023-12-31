@@ -11,6 +11,7 @@ struct Home: View {
     @StateObject private var model = DriveListModel()
     @State private var presentedPage: [DriveInfoModel] = []
     @State private var showAddView = false
+    @State private var showDriveInfoDetails = true
     var body: some View {
         NavigationStack(path: $presentedPage) {
             List(model.drives, id: \.self) { item in
@@ -39,9 +40,11 @@ struct Home: View {
                             .frame(width: 40, height: 40)
                         VStack(alignment: .leading) {
                             Text(item.alias)
-                            Text(item.driveDetail)
-                                .foregroundStyle(.secondary)
-                                .font(.footnote)
+                            if showDriveInfoDetails {
+                                Text(item.driveDetail)
+                                    .foregroundStyle(.secondary)
+                                    .font(.footnote)
+                            }
                         }
                         Spacer()
                     }
@@ -75,6 +78,9 @@ struct Home: View {
             .sheet(isPresented: $showAddView) {
                 DriveSetupPage(listModel: model)
             }
+        }
+        .onShake {
+            showDriveInfoDetails.toggle()
         }
     }
 }
