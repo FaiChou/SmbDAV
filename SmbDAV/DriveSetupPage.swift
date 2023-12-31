@@ -123,15 +123,14 @@ struct DriveSetupPage: View {
                 drive = SMB(baseURL: address, port: port, username: username, password: password, subfolder: subfolder)
                 if subfolder.isEmpty {
                     let smb = drive as! SMB
-                    if let shares = try? await smb.listShares() {
+                    guard let shares = try? await smb.listShares(), !shares.isEmpty else {
+                        showError = true
                         showLoading = false
-                        if shares.isEmpty {
-                            showError = true
-                        } else {
-                            smbShares = shares
-                            isSmbConfirming = true
-                        }
+                        return
                     }
+                    showLoading = false
+                    smbShares = shares
+                    isSmbConfirming = true
                     return
                 }
             }
