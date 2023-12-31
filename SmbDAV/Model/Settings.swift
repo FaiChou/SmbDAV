@@ -12,4 +12,5 @@ class SettingsModel: ObservableObject {
     static let shared = SettingsModel()
     @AppStorage("ShowHiddenFiles") var showHiddenFiles = false
     @AppStorage("FolderFirst") var folderFirst = true
+    @AppStorage("ShowFileExtension") var showFileExtension = true
 }

@@ -46,7 +46,14 @@ struct FileListPage: View {
                 } else if item.extension == "mp4" {
                     VideoPlayerPage(file: item, drive: drive)
                 } else {
-                    Text(item.name)
+                    VStack {
+                        Text(item.name)
+                            .font(.headline)
+                        Text("\(item.path)/\(item.fullName)")
+                            .foregroundStyle(.secondary)
+                            .font(.caption)
+                            .padding()
+                    }
                 }
             } label: {
                 HStack {
@@ -56,7 +63,7 @@ struct FileListPage: View {
                         .frame(width: 30, height: 40)
                         .padding(.trailing, 5)
                     VStack(alignment: .leading) {
-                        Text(item.name)
+                        Text(settings.showFileExtension ? item.fullName : item.name)
                         Text(item.lastModified.formatted())
                             .foregroundStyle(.secondary)
                             .font(.footnote)
@@ -93,6 +100,9 @@ struct FileListPage: View {
                 }
                 Toggle(isOn: settings.$showHiddenFiles) {
                     Label("Show Hidden files", systemImage: settings.showHiddenFiles ? "eye" : "eye.slash")
+                }
+                Toggle(isOn: settings.$showFileExtension) {
+                    Label("Show File Extension", systemImage: "doc.text.magnifyingglass")
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

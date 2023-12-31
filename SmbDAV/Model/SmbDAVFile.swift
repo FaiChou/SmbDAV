@@ -83,13 +83,13 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     private var fileURL: URL {
         URL(fileURLWithPath: path)
     }
-    var fileName: String {
+    var fullName: String {
         return fileURL.lastPathComponent
     }
     var `extension`: String {
         fileURL.pathExtension
     }
     var name: String {
-        isDirectory ? fileName : fileURL.deletingPathExtension().lastPathComponent
+        isDirectory ? fullName : fileURL.deletingPathExtension().lastPathComponent
     }
 }
