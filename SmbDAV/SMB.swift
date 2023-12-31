@@ -13,21 +13,6 @@ class SMB: SmbDAVDrive {
     let baseURL: URL
     let share: String
     let credential: URLCredential
-    var smbURL: URL? {
-        guard var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false) else {
-            return nil
-        }
-        if let username = credential.user, !username.isEmpty {
-            components.user = username
-            if let password = credential.password, !password.isEmpty {
-                components.password = password
-            }
-        }
-        if !share.isEmpty {
-            components.path = components.path.appending("/\(share)")
-        }
-        return components.url
-    }
     lazy private var client = SMB2Manager(url: self.baseURL, credential: self.credential)!
     init(baseURL: String, port: Int, username: String, password: String, subfolder: String) {
         let processedBaseURL: String
