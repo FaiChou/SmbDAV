@@ -9,17 +9,28 @@ import Foundation
 import SwiftUI
 
 struct FileListPage: View {
+    @EnvironmentObject var settings: SettingsModel
     let drive: SmbDAVDrive
     let path: String
     @State private var data: [SmbDAVFile] = []
     @State private var searchText = ""
     @State private var isConfirming = false
     @State private var fileToBeDeleted: SmbDAVFile?
+    var processedData: [SmbDAVFile] {
+        var d = data
+        if settings.folderFirst {
+            d = d.filter { $0.isDirectory } + d.filter { !$0.isDirectory }
+        }
+        if !settings.showHiddenFiles {
+            d = d.filter { !$0.fileName.hasPrefix(".") }
+        }
+        return d
+    }
     var filteredResult: [SmbDAVFile] {
         if searchText.isEmpty {
-            return data
+            return processedData
         }
-        return data.filter { $0.fileName.contains(searchText) }
+        return processedData.filter { $0.fileName.contains(searchText) }
     }
     init(drive: SmbDAVDrive, path: String) {
         self.drive = drive
@@ -75,6 +86,18 @@ struct FileListPage: View {
                 }
             }
         }
+        .toolbar {
+            Menu {
+                Toggle(isOn: settings.$folderFirst) {
+                    Label("Folder First", systemImage: "folder")
+                }
+                Toggle(isOn: settings.$showHiddenFiles) {
+                    Label("Show Hidden files", systemImage: settings.showHiddenFiles ? "eye" : "eye.slash")
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+        }
         .confirmationDialog(
             "Are you sure you want to delete this file?",
             isPresented: $isConfirming, presenting: fileToBeDeleted
@@ -107,7 +130,7 @@ struct FileListPage: View {
     private func delete(file: SmbDAVFile) {
         Task {
             do {
-                if try await drive.deleteFile(atPath: file.path) {
+                if try await drive.deleteFile(file: file) {
                     data = data.filter { $0.id != file.id }
                 } else {
                     print("delete failed: \(file.fileName)")

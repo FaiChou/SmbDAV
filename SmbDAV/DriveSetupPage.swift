@@ -12,27 +12,29 @@ struct DriveSetupPage: View {
     @State private var showLoading = false
     @State private var showError = false
     @StateObject var listModel: DriveListModel
-    var driveModel: DriveModel?
+    var driveInfoModel: DriveInfoModel?
     @State private var driveType: DriveType = .WebDAV
     @State private var alias: String = ""
     @State private var address: String = ""
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var port: Int = 80
-    @State private var path: String = ""
+    @State private var subfolder: String = ""
+    @State private var isSmbConfirming = false
+    @State private var smbShares: [String] = []
     init(listModel: DriveListModel) {
         _listModel = .init(wrappedValue: listModel)
     }
-    init(listModel: DriveListModel, driveModel: DriveModel) {
+    init(listModel: DriveListModel, driveInfoModel: DriveInfoModel) {
         _listModel = .init(wrappedValue: listModel)
-        self.driveModel = driveModel
-        _driveType = .init(initialValue: driveModel.driveType)
-        _alias = .init(initialValue: driveModel.alias)
-        _address = .init(initialValue: driveModel.address)
-        _username = .init(initialValue: driveModel.username)
-        _password = .init(initialValue: driveModel.password)
-        _port = .init(initialValue: driveModel.port)
-        _path = .init(initialValue: driveModel.path)
+        self.driveInfoModel = driveInfoModel
+        _driveType = .init(initialValue: driveInfoModel.driveType)
+        _alias = .init(initialValue: driveInfoModel.alias)
+        _address = .init(initialValue: driveInfoModel.address)
+        _username = .init(initialValue: driveInfoModel.username)
+        _password = .init(initialValue: driveInfoModel.password)
+        _port = .init(initialValue: driveInfoModel.port)
+        _subfolder = .init(initialValue: driveInfoModel.subfolder)
     }
     var body: some View {
         NavigationView {
@@ -45,7 +47,7 @@ struct DriveSetupPage: View {
                             }
                         }
                         TextField("Alias", text: $alias)
-                        TextField("http[s]://192.168.11.199", text: $address)
+                        TextField(driveType == .WebDAV ? "http[s]://192.168.11.199" : "192.168.11.199", text: $address)
                             .keyboardType(.URL)
                             .autocapitalization(.none)
                         TextField("Username", text: $username)
@@ -54,7 +56,7 @@ struct DriveSetupPage: View {
                     Section(header: Text("Advanced")) {
                         TextField("Port", value: $port, formatter: NumberFormatter())
                             .keyboardType(.numberPad)
-                        TextField("Path, eg: /subfolder", text: $path)
+                        TextField("Path, eg: /subfolder", text: $subfolder)
                     }
                     Button("Submit") {
                         handleSubmit()
@@ -80,6 +82,28 @@ struct DriveSetupPage: View {
                 }
             }
         }
+        .confirmationDialog(
+            "Please select one share to connect",
+            isPresented: $isSmbConfirming
+        ) {
+            ForEach(smbShares, id: \.self) {share in
+                Button(share) {
+                    var info = DriveInfoModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, subfolder: share)
+                    if let driveInfoModel {
+                        info.id = driveInfoModel.id
+                        listModel.update(drive: info)
+                    } else {
+                        listModel.addDrive(info)
+                    }
+                    dismiss()
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                smbShares = []
+            }
+        } message: {
+            Text("Please select one share to connect")
+        }
         .navigationTitle("Drive Setup")
     }
     private func handleSubmit() {
@@ -92,26 +116,31 @@ struct DriveSetupPage: View {
             var drive: SmbDAVDrive
             switch driveType {
             case .WebDAV:
-                drive = WebDAV(baseURL: address,
-                               port: port,
-                               username: username,
-                               password: password,
-                               path: path)
+                drive = WebDAV(baseURL: address, port: port, username: username, password: password, subfolder: subfolder)
             case .smb:
-                drive = SMB(baseURL: address,
-                               port: port,
-                               username: username,
-                               password: password,
-                               path: path)
+                drive = SMB(baseURL: address, port: port, username: username, password: password, subfolder: subfolder)
+                if subfolder.isEmpty {
+                    let smb = drive as! SMB
+                    if let shares = try? await smb.listShares() {
+                        showLoading = false
+                        if shares.isEmpty {
+                            showError = true
+                        } else {
+                            smbShares = shares
+                            isSmbConfirming = true
+                        }
+                    }
+                    return
+                }
             }
             if await drive.ping() {
                 showLoading = false
-                var d = DriveModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, path: path)
-                if let driveModel {
-                    d.id = driveModel.id
-                    listModel.update(drive: d)
+                var info = DriveInfoModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, subfolder: subfolder)
+                if let driveInfoModel {
+                    info.id = driveInfoModel.id
+                    listModel.update(drive: info)
                 } else {
-                    listModel.addDrive(d)
+                    listModel.addDrive(info)
                 }
                 dismiss()
             } else {

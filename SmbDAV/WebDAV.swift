@@ -52,7 +52,7 @@ enum WebDAVError: Error {
 class WebDAV: SmbDAVDrive {
     var baseURL: URL
     var auth: String
-    init(baseURL: String, port: Int, username: String, password: String, path: String) {
+    init(baseURL: String, port: Int, username: String, password: String, subfolder: String) {
         let processedBaseURL: String
         if baseURL.hasPrefix("http://") || baseURL.hasPrefix("https://") {
             processedBaseURL = baseURL
@@ -64,8 +64,8 @@ class WebDAV: SmbDAVDrive {
         if port != 80 && port != 443 {
             fullURLString += ":\(port)"
         }
-        if !path.isEmpty {
-            let slashPrefixedPath = path.hasPrefix("/") ? path : "/\(path)"
+        if !subfolder.isEmpty {
+            let slashPrefixedPath = subfolder.hasPrefix("/") ? subfolder : "/\(subfolder)"
             fullURLString += slashPrefixedPath
         }
         self.baseURL = URL(string: fullURLString)!
@@ -73,20 +73,12 @@ class WebDAV: SmbDAVDrive {
         let authData = authString.data(using: .utf8)
         self.auth = authData?.base64EncodedString() ?? ""
     }
-    public static func sortedFiles(_ files: [SmbDAVFile]) -> [SmbDAVFile] {
-        var files = files
-        // remove self
-        if !files.isEmpty {
-            files.removeFirst()
-        }
-        // folder first
-        files = files.filter { $0.isDirectory } + files.filter { !$0.isDirectory }
-        files = files.filter { !$0.fileName.hasPrefix(".") }
-        return files
-    }
 }
 
 extension WebDAV {
+    func getFileURL(file: SmbDAVFile) -> URL? {
+        return self.baseURL.appendingPathComponent(file.path)
+    }
     func ping() async -> Bool {
         do {
             let _ = try await listFiles(atPath: "/")
@@ -122,16 +114,18 @@ extension WebDAV {
             let xml = XMLHash.config { config in
                 config.shouldProcessNamespaces = true
             }.parse(string)
-//            print(xml)
-            let files = xml["multistatus"]["response"].all.compactMap { SmbDAVFile(xml: $0, baseURL: self.baseURL) }
-            let sortedFiles = WebDAV.sortedFiles(files)
-            return sortedFiles
+            var files = xml["multistatus"]["response"].all.compactMap { SmbDAVFile(xml: $0, baseURL: self.baseURL) }
+            if files.isEmpty {
+                return []
+            }
+            files.removeFirst() // first is self
+            return files
         } catch {
             throw WebDAVError.nsError(error)
         }
     }
-    func deleteFile(atPath path: String) async throws -> Bool {
-        guard let request = authorizedRequest(path: path, method: "DELETE") else {
+    func deleteFile(file: SmbDAVFile) async throws -> Bool {
+        guard let request = authorizedRequest(path: file.path, method: "DELETE") else {
             throw WebDAVError.invalidCredentials
         }
         do {
@@ -144,8 +138,8 @@ extension WebDAV {
             throw WebDAVError.nsError(error)
         }
     }
-    func getImage(atPath path: String) async -> UIImage? {
-        let url = self.baseURL.appendingPathComponent(path)
+    func getImage(file: SmbDAVFile) async -> UIImage? {
+        let url = self.baseURL.appendingPathComponent(file.path)
         var request = URLRequest(url: url)
         request.addValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
         do {

@@ -26,7 +26,10 @@ struct VideoPlayerPage: View {
                 let headers: [String: String] = [
                     "Authorization": "Basic \(webdav.auth)"
                 ]
-                let asset = AVURLAsset(url: file.url, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
+                guard let url = drive.getFileURL(file: file) else {
+                    return
+                }
+                let asset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
                 let playerItem = AVPlayerItem(asset: asset)
                 player = AVPlayer(playerItem: playerItem)
                 player?.play()

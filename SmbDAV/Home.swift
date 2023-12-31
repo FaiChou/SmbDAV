@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Home: View {
     @StateObject private var model = DriveListModel()
-    @State private var presentedPage: [DriveModel] = []
+    @State private var presentedPage: [DriveInfoModel] = []
     @State private var showAddView = false
     var body: some View {
         NavigationStack(path: $presentedPage) {
@@ -21,14 +21,14 @@ struct Home: View {
                                                     port: item.port,
                                                     username: item.username,
                                                     password: item.password,
-                                                    path: item.path),
+                                                    subfolder: item.subfolder),
                                      path: "/")
                     case .smb:
                         FileListPage(drive: SMB(baseURL: item.address,
                                                 port: item.port,
                                                 username: item.username,
                                                 password: item.password,
-                                                path: item.path),
+                                                subfolder: item.subfolder),
                                      path: "/")
                     }
                 } label: {
@@ -59,8 +59,8 @@ struct Home: View {
                     }
                 }
             }
-            .navigationDestination(for: DriveModel.self) {
-                DriveSetupPage(listModel: model, driveModel: $0)
+            .navigationDestination(for: DriveInfoModel.self) {
+                DriveSetupPage(listModel: model, driveInfoModel: $0)
             }
             .navigationTitle("Drives")
             .toolbar {

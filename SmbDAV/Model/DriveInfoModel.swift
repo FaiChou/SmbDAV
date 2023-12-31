@@ -1,5 +1,5 @@
 //
-//  DriveModel.swift
+//  DriveInfoModel.swift
 //  WebdavDemo
 //
 //  Created by FaiChou on 2023/12/28.
@@ -13,7 +13,7 @@ enum DriveType: String, CaseIterable, Codable, Identifiable {
     var id: Self { self }
 }
 
-struct DriveModel: Identifiable, Codable, Hashable, Equatable {
+struct DriveInfoModel: Identifiable, Codable, Hashable, Equatable {
     var id: UUID = UUID()
     var driveType: DriveType = .WebDAV
     var alias: String = "My Drive"
@@ -21,17 +21,17 @@ struct DriveModel: Identifiable, Codable, Hashable, Equatable {
     var username: String = ""
     var password: String = ""
     var port: Int = 80
-    var path: String = ""
-    static func == (lhs: DriveModel, rhs: DriveModel) -> Bool {
+    var subfolder: String = ""
+    static func == (lhs: DriveInfoModel, rhs: DriveInfoModel) -> Bool {
         return lhs.id == rhs.id
     }
     var driveDetail: String {
         var address = self.address
-        if port != 80 && port != 443 {
+        if port != 80 && port != 443 && port != 445 {
             address += ":\(port)"
         }
-        if !path.isEmpty {
-            let slashPrefixedPath = path.hasPrefix("/") ? path : "/\(path)"
+        if !subfolder.isEmpty {
+            let slashPrefixedPath = subfolder.hasPrefix("/") ? subfolder : "/\(subfolder)"
             address += slashPrefixedPath
         }
         return address

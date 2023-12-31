@@ -12,7 +12,7 @@ let K_STORAGE_DriveListModelKEY = "K_STORAGE_DriveListModelKEY"
 
 class DriveListModel: ObservableObject {
     static let shared = DriveListModel()
-    @Published var drives: [DriveModel] = [DriveModel]() {
+    @Published var drives: [DriveInfoModel] = [DriveInfoModel]() {
         didSet {
             storeInUserDefaults()
         }
@@ -22,14 +22,14 @@ class DriveListModel: ObservableObject {
     }
     private func restoreFromUserDefaults() {
         if let jsonData = NSUbiquitousKeyValueStore.default.data(forKey: K_STORAGE_DriveListModelKEY),
-               let decoded = try? JSONDecoder().decode(Array<DriveModel>.self, from: jsonData) {
+               let decoded = try? JSONDecoder().decode(Array<DriveInfoModel>.self, from: jsonData) {
             drives = decoded
         }
     }
     init() {
         restoreFromUserDefaults()
     }
-    func addDrive(_ drive: DriveModel) {
+    func addDrive(_ drive: DriveInfoModel) {
         let filtered = self.drives.filter { $0 == drive }
         if filtered.count == 0 {
             self.drives.append(drive)
@@ -38,13 +38,13 @@ class DriveListModel: ObservableObject {
     func clearAll() {
         self.drives = []
     }
-    func delete(drive: DriveModel) {
+    func delete(drive: DriveInfoModel) {
         self.drives = self.drives.filter { $0 != drive }
     }
-    func getDrive(by id: UUID) -> DriveModel? {
+    func getDrive(by id: UUID) -> DriveInfoModel? {
         return self.drives.first { $0.id == id }
     }
-    func update(drive: DriveModel) {
+    func update(drive: DriveInfoModel) {
         if let index = self.drives.firstIndex(where: { $0 == drive }) {
             self.drives[index] = drive
         }

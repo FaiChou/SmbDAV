@@ -15,36 +15,17 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     var isDirectory: Bool
     var lastModified: Date
     var size: Int64
-    var url: URL
     var driveType: DriveType
-    init(path: String, id: String, isDirectory: Bool, lastModified: Date, size: Int64, url: URL, driveType: DriveType) {
+    init(path: String, id: String, isDirectory: Bool, lastModified: Date, size: Int64, driveType: DriveType) {
         self.path = path
         self.id = id
         self.isDirectory = isDirectory
         self.lastModified = lastModified
         self.size = size
-        self.url = url
         self.driveType = driveType
     }
     init?(xml: XMLIndexer, baseURL: URL) {
-        /**
-         <D:response>
-             <D:href>http://example.com/resource</D:href>
-             <D:propstat>
-                 <D:prop>
-                     <D:getcontentlength>1234</D:getcontentlength>
-                     <D:getcontenttype>text/html</D:getcontenttype>
-                 </D:prop>
-                 <D:status>HTTP/1.1 200 OK</D:status>
-             </D:propstat>
-             <D:propstat>
-                 <D:prop>
-                     <D:customproperty></D:customproperty>
-                 </D:prop>
-                 <D:status>HTTP/1.1 404 Not Found</D:status>
-             </D:propstat>
-         </D:response>
-         */
+        // the first is good result
         let properties = xml["propstat"][0]["prop"]
         guard var path = xml["href"].element?.text,
               let dateString = properties["getlastmodified"].element?.text,
@@ -61,24 +42,13 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
         if let sizeString = properties["getcontentlength"].element?.text {
             size = Int64(sizeString) ?? 0
         }
-        let url = baseURL.appendingPathComponent(path)
-        self.init(path: path, id: UUID().uuidString, isDirectory: isDirectory, lastModified: date, size: size, url: url, driveType: .WebDAV)
+        self.init(path: path, id: UUID().uuidString, isDirectory: isDirectory, lastModified: date, size: size, driveType: .WebDAV)
     }
-    init?(smbFile: [URLResourceKey: Any], baseURL: URL?) {
-        /**
-         print(
-             "name:", entry[.nameKey] as! String,
-             ", path:", entry[.pathKey] as! String,
-             ", type:", entry[.fileResourceTypeKey] as! URLFileResourceType,
-             ", size:", entry[.fileSizeKey] as! Int64,
-             ", modified:", entry[.contentModificationDateKey] as! Date,
-             ", created:", entry[.creationDateKey] as! Date)
-         */
+    init?(smbFile: [URLResourceKey: Any]) {
         guard let path = smbFile[.pathKey] as? String,
               let size = smbFile[.fileSizeKey] as? Int64,
               let isDirectory = smbFile[.isDirectoryKey] as? Bool,
-              let lastModified = smbFile[.contentModificationDateKey] as? Date,
-              let url = baseURL else {
+              let lastModified = smbFile[.contentModificationDateKey] as? Date else {
             return nil
         }
         self.init(path: path,
@@ -86,7 +56,6 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
                   isDirectory: isDirectory,
                   lastModified: lastModified,
                   size: size,
-                  url: url.appendingPathComponent(path),
                   driveType: .smb
         )
     }

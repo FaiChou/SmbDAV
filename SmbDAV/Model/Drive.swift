@@ -11,6 +11,7 @@ import UIKit
 protocol SmbDAVDrive {
     func ping() async -> Bool
     func listFiles(atPath path: String) async throws -> [SmbDAVFile]
-    func deleteFile(atPath path: String) async throws -> Bool
-    func getImage(atPath path: String) async -> UIImage?
+    func deleteFile(file: SmbDAVFile) async throws -> Bool
+    func getImage(file: SmbDAVFile) async -> UIImage?
+    func getFileURL(file: SmbDAVFile) -> URL?
 }

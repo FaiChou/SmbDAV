@@ -30,7 +30,7 @@ struct SmbDAVAsyncImage<Content: View, Placeholder: View>: View {
         } else {
             placeholder()
                 .task {
-                    self.uiImage = await drive.getImage(atPath: file.path)
+                    self.uiImage = await drive.getImage(file: file)
                 }
         }
     }

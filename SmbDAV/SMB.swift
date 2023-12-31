@@ -11,7 +11,7 @@ import UIKit
 
 class SMB: SmbDAVDrive {
     let baseURL: URL
-    let path: String
+    let share: String
     let credential: URLCredential
     var smbURL: URL? {
         guard var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false) else {
@@ -23,13 +23,13 @@ class SMB: SmbDAVDrive {
                 components.password = password
             }
         }
-        if !path.isEmpty {
-            components.path = components.path.appending("/\(path)")
+        if !share.isEmpty {
+            components.path = components.path.appending("/\(share)")
         }
         return components.url
     }
     lazy private var client = SMB2Manager(url: self.baseURL, credential: self.credential)!
-    init(baseURL: String, port: Int, username: String, password: String, path: String) {
+    init(baseURL: String, port: Int, username: String, password: String, subfolder: String) {
         let processedBaseURL: String
         if baseURL.hasPrefix("smb://") {
             processedBaseURL = baseURL
@@ -41,14 +41,34 @@ class SMB: SmbDAVDrive {
         if port != 445 {
             fullURLString += ":\(port)"
         }
-        let p = path.hasPrefix("/") ? String(path.dropFirst()) : path
-        self.path = p.isEmpty ? "/" : p
+        let path = subfolder.hasPrefix("/") ? String(subfolder.dropFirst()) : subfolder
+        self.share = path.isEmpty ? "/" : path
         self.baseURL = URL(string: fullURLString)!
-        self.credential = URLCredential(user: username, password: password, persistence: .forSession)
+        let user = username.isEmpty ? "Guest" : username
+        self.credential = URLCredential(user: user, password: password, persistence: .forSession)
+    }
+    func getFileURL(file: SmbDAVFile) -> URL? {
+        guard var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false) else {
+            return nil
+        }
+        if let username = credential.user, !username.isEmpty {
+            components.user = username
+            if let password = credential.password, !password.isEmpty {
+                components.password = password
+            }
+        }
+        if !share.isEmpty {
+            components.path = components.path.appending("/\(share)")
+        }
+        return components.url?.appendingPathComponent(file.path)
     }
     private func connect() async throws -> SMB2Manager {
-        try await client.connectShare(name: self.path)
+        try await client.connectShare(name: self.share)
         return self.client
+    }
+    func listShares() async throws -> [String] {
+        let shares = try await self.client.listShares()
+        return shares.compactMap { $0.name }
     }
     func ping() async -> Bool {
         do {
@@ -62,21 +82,25 @@ class SMB: SmbDAVDrive {
     func listFiles(atPath path: String) async throws -> [SmbDAVFile] {
         let client = try await self.connect()
         let files = try await client.contentsOfDirectory(atPath: path)
-        return files.compactMap { SmbDAVFile(smbFile: $0, baseURL: self.smbURL) }
+        return files.compactMap { SmbDAVFile(smbFile: $0) }
     }
-    func deleteFile(atPath path: String) async -> Bool {
+    func deleteFile(file: SmbDAVFile) async -> Bool {
         do {
             let client = try await self.connect()
-            try await client.removeFile(atPath: path)
+            if file.isDirectory {
+                try await client.removeDirectory(atPath: file.path, recursive: true)
+            } else {
+                try await client.removeFile(atPath: file.path)
+            }
             return true
         } catch {
             return false
         }
     }
-    func getImage(atPath path: String) async -> UIImage? {
+    func getImage(file: SmbDAVFile) async -> UIImage? {
         do {
             let client = try await self.connect()
-            let data = try await client.contents(atPath: path) { bytes, total in
+            let data = try await client.contents(atPath: file.path) { bytes, total in
                 print("downloaded:", bytes, "of", total)
                 return true
             }
