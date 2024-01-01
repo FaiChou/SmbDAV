@@ -86,7 +86,7 @@ class SMB: SmbDAVDrive {
         do {
             let client = try await self.connect()
             let data = try await client.contents(atPath: file.path) { bytes, total in
-                print("downloaded:", bytes, "of", total)
+//                print("downloaded:", bytes, "of", total)
                 return true
             }
             return UIImage(data: data)

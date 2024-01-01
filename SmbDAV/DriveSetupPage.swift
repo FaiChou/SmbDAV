@@ -20,8 +20,8 @@ struct DriveSetupPage: View {
     @State private var password: String = ""
     @State private var port: Int = 80
     @State private var subfolder: String = ""
-    @State private var isSmbConfirming = false
-    @State private var smbShares: [String] = []
+    @State private var isConfirming = false
+    @State private var exports: [String] = []
     init(listModel: DriveListModel) {
         _listModel = .init(wrappedValue: listModel)
     }
@@ -50,13 +50,17 @@ struct DriveSetupPage: View {
                         TextField(driveType == .WebDAV ? "http[s]://192.168.11.199" : "192.168.11.199", text: $address)
                             .keyboardType(.URL)
                             .autocapitalization(.none)
-                        TextField("Username", text: $username)
-                        SecureField("Password", text: $password)
+                        if driveType != .nfs {
+                            TextField("Username", text: $username)
+                            SecureField("Password", text: $password)
+                        }
                     }
-                    Section(header: Text("Advanced")) {
-                        TextField("Port", value: $port, formatter: NumberFormatter())
-                            .keyboardType(.numberPad)
-                        TextField("Path, eg: /subfolder", text: $subfolder)
+                    if driveType != .nfs {
+                        Section(header: Text("Advanced")) {
+                            TextField("Port", value: $port, formatter: NumberFormatter())
+                                .keyboardType(.numberPad)
+                            TextField("Path, eg: /subfolder", text: $subfolder)
+                        }
                     }
                     Button("Submit") {
                         handleSubmit()
@@ -86,9 +90,9 @@ struct DriveSetupPage: View {
         }
         .confirmationDialog(
             "Please select one share to connect",
-            isPresented: $isSmbConfirming
+            isPresented: $isConfirming
         ) {
-            ForEach(smbShares, id: \.self) {share in
+            ForEach(exports, id: \.self) {share in
                 Button(share) {
                     var info = DriveInfoModel(driveType: driveType, alias: alias, address: address, username: username, password: password, port: port, subfolder: share)
                     if let driveInfoModel {
@@ -101,7 +105,7 @@ struct DriveSetupPage: View {
                 }
             }
             Button("Cancel", role: .cancel) {
-                smbShares = []
+                exports = []
             }
         } message: {
             Text("Please select one share to connect")
@@ -129,10 +133,21 @@ struct DriveSetupPage: View {
                         return
                     }
                     showLoading = false
-                    smbShares = shares
-                    isSmbConfirming = true
+                    exports = shares
+                    isConfirming = true
                     return
                 }
+            case .nfs:
+                let nfs = NFS(baseURL: address, share: "/")!
+                guard let exports = try? await nfs.listExports(), !exports.isEmpty else {
+                    showError = true
+                    showLoading = false
+                    return
+                }
+                showLoading = false
+                self.exports = exports
+                isConfirming = true
+                return
             }
             if await drive.ping() {
                 showLoading = false

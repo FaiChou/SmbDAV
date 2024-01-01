@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "nfskit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexiscn/NFSKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ec63d055b9ee08d609d3c6cb32f42c07edc7bdf7"
+      }
+    },
+    {
       "identity" : "swxmlhash",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/drmohundro/SWXMLHash.git",

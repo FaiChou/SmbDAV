@@ -22,9 +22,11 @@
 		4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 4D05387B2B3DB8B6000D4193 /* SWXMLHash */; };
 		4D7A35192B418AD700FC9832 /* KSPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 4D7A35182B418AD700FC9832 /* KSPlayer */; };
 		4D7A351B2B418C3800FC9832 /* DeviceShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7A351A2B418C3800FC9832 /* DeviceShake.swift */; };
+		4D7A351D2B42700900FC9832 /* NFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7A351C2B42700900FC9832 /* NFS.swift */; };
 		4D84B8162B40503F00EFBED1 /* SMB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D84B8152B40503F00EFBED1 /* SMB.swift */; };
 		4D84B81A2B410E1B00EFBED1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D84B8192B410E1B00EFBED1 /* Settings.swift */; };
 		4D84B8252B41404E00EFBED1 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = 4D84B8242B41404E00EFBED1 /* AMSMB2 */; };
+		4DC03A5C2B4294E1003CA49B /* NFSKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4DC03A5B2B4294E1003CA49B /* NFSKit */; };
 		4DC498202B3EE43200CFD2A7 /* Drive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC4981F2B3EE43200CFD2A7 /* Drive.swift */; };
 		4DC498222B3F11C200CFD2A7 /* SmbDAVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC498212B3F11C200CFD2A7 /* SmbDAVFile.swift */; };
 		4DCBAD832B41411C009D9088 /* AMSMB2 in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 4D84B8242B41404E00EFBED1 /* AMSMB2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -63,6 +65,7 @@
 		4D7A35162B418A9B00FC9832 /* FFmpegKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FFmpegKit; path = KSPlayer/FFmpegKit; sourceTree = "<group>"; };
 		4D7A35172B418AAF00FC9832 /* KSPlayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = KSPlayer; sourceTree = "<group>"; };
 		4D7A351A2B418C3800FC9832 /* DeviceShake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceShake.swift; sourceTree = "<group>"; };
+		4D7A351C2B42700900FC9832 /* NFS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFS.swift; sourceTree = "<group>"; };
 		4D84B8152B40503F00EFBED1 /* SMB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMB.swift; sourceTree = "<group>"; };
 		4D84B8192B410E1B00EFBED1 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		4DC4981F2B3EE43200CFD2A7 /* Drive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drive.swift; sourceTree = "<group>"; };
@@ -75,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D84B8252B41404E00EFBED1 /* AMSMB2 in Frameworks */,
+				4DC03A5C2B4294E1003CA49B /* NFSKit in Frameworks */,
 				4D7A35192B418AD700FC9832 /* KSPlayer in Frameworks */,
 				4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */,
 			);
@@ -115,6 +119,7 @@
 				4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */,
 				4D05386E2B3DB801000D4193 /* WebDAV.swift */,
 				4D84B8152B40503F00EFBED1 /* SMB.swift */,
+				4D7A351C2B42700900FC9832 /* NFS.swift */,
 				4D7A351A2B418C3800FC9832 /* DeviceShake.swift */,
 				4D0538562B3DB78D000D4193 /* Assets.xcassets */,
 				4D0538582B3DB78D000D4193 /* Preview Content */,
@@ -172,6 +177,7 @@
 				4D05387B2B3DB8B6000D4193 /* SWXMLHash */,
 				4D84B8242B41404E00EFBED1 /* AMSMB2 */,
 				4D7A35182B418AD700FC9832 /* KSPlayer */,
+				4DC03A5B2B4294E1003CA49B /* NFSKit */,
 			);
 			productName = SmbDAV;
 			productReference = 4D05384F2B3DB78C000D4193 /* SmbDAV.app */;
@@ -204,6 +210,7 @@
 			packageReferences = (
 				4D05387A2B3DB8B6000D4193 /* XCRemoteSwiftPackageReference "SWXMLHash" */,
 				4D84B8232B41404E00EFBED1 /* XCRemoteSwiftPackageReference "AMSMB2" */,
+				4DC03A5A2B4294E1003CA49B /* XCRemoteSwiftPackageReference "NFSKit" */,
 			);
 			productRefGroup = 4D0538502B3DB78C000D4193 /* Products */;
 			projectDirPath = "";
@@ -242,6 +249,7 @@
 				4DC498222B3F11C200CFD2A7 /* SmbDAVFile.swift in Sources */,
 				4D0538712B3DB801000D4193 /* DriveSetupPage.swift in Sources */,
 				4D0538722B3DB801000D4193 /* Home.swift in Sources */,
+				4D7A351D2B42700900FC9832 /* NFS.swift in Sources */,
 				4D0226DC2B3EBDE900E6A1E2 /* ImagePreviewPage.swift in Sources */,
 				4D0538742B3DB801000D4193 /* DriveInfoModel.swift in Sources */,
 				4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */,
@@ -473,6 +481,14 @@
 				minimumVersion = 3.3.0;
 			};
 		};
+		4DC03A5A2B4294E1003CA49B /* XCRemoteSwiftPackageReference "NFSKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alexiscn/NFSKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -489,6 +505,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4D84B8232B41404E00EFBED1 /* XCRemoteSwiftPackageReference "AMSMB2" */;
 			productName = AMSMB2;
+		};
+		4DC03A5B2B4294E1003CA49B /* NFSKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4DC03A5A2B4294E1003CA49B /* XCRemoteSwiftPackageReference "NFSKit" */;
+			productName = NFSKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

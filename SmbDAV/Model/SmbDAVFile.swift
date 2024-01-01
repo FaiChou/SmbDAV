@@ -59,7 +59,21 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
                   driveType: .smb
         )
     }
-
+    init?(nfsFile: [URLResourceKey: Any]) {
+        guard let path = nfsFile[.pathKey] as? String,
+              let size = nfsFile[.fileSizeKey] as? Int64,
+              let isDirectory = nfsFile[.isDirectoryKey] as? Bool,
+              let lastModified = nfsFile[.contentModificationDateKey] as? Date else {
+            return nil
+        }
+        self.init(path: path,
+                  id: UUID().uuidString,
+                  isDirectory: isDirectory,
+                  lastModified: lastModified,
+                  size: size,
+                  driveType: .nfs
+        )
+    }
     static let rfc1123Formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"

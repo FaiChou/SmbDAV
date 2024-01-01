@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum DriveType: String, CaseIterable, Codable, Identifiable {
-    case WebDAV, smb
+    case WebDAV, smb, nfs
     var id: Self { self }
 }
 

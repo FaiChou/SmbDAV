@@ -31,10 +31,12 @@ struct Home: View {
                                                 password: item.password,
                                                 subfolder: item.subfolder),
                                      path: "/")
+                    case .nfs:
+                        FileListPage(drive: NFS(baseURL: item.address, share: item.subfolder)!, path: "/")
                     }
                 } label: {
                     HStack {
-                        Image(item.driveType == .WebDAV ? "webdav" : "samba")
+                        Image(getDriveImageName(driveType: item.driveType))
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
@@ -81,6 +83,16 @@ struct Home: View {
         }
         .onShake {
             showDriveInfoDetails.toggle()
+        }
+    }
+    private func getDriveImageName(driveType: DriveType) -> String {
+        switch driveType {
+        case .WebDAV:
+            return "webdav"
+        case .smb:
+            return "smb"
+        case .nfs:
+            return "nfs"
         }
     }
 }
