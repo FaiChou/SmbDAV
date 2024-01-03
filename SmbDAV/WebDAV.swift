@@ -9,6 +9,19 @@ import Foundation
 import SWXMLHash
 import UIKit
 
+let WEBDAV_BODY =
+"""
+<?xml version="1.0" encoding="utf-8" ?>
+<D:propfind xmlns:D="DAV:">
+    <D:prop>
+        <D:getcontentlength/>
+        <D:getlastmodified/>
+        <D:getcontenttype />
+        <D:resourcetype/>
+    </D:prop>
+</D:propfind>
+"""
+
 enum WebDAVError: Error {
     /// The credentials or path were unable to be encoded.
     /// No network request was called.
@@ -101,19 +114,7 @@ extension WebDAV {
         var request = URLRequest(url: url)
         request.httpMethod = "PROPFIND"
         request.setValue("1", forHTTPHeaderField: "Depth")
-        let body =
-"""
-<?xml version="1.0" encoding="utf-8" ?>
-<D:propfind xmlns:D="DAV:">
-    <D:prop>
-        <D:getcontentlength/>
-        <D:getlastmodified/>
-        <D:getcontenttype />
-        <D:resourcetype/>
-    </D:prop>
-</D:propfind>
-"""
-        request.httpBody = body.data(using: .utf8)
+        request.httpBody = WEBDAV_BODY.data(using: .utf8)
         do {
             let (data, response) = try await self.session.data(for: request, delegate: self.delegate)
             guard let response = response as? HTTPURLResponse,
