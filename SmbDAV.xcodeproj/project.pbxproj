@@ -20,6 +20,7 @@
 		4D0538772B3DB801000D4193 /* SmbDAVAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */; };
 		4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05386E2B3DB801000D4193 /* WebDAV.swift */; };
 		4D05387C2B3DB8B6000D4193 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 4D05387B2B3DB8B6000D4193 /* SWXMLHash */; };
+		4D1D58B62B4528B900591FE3 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1D58B52B4528B900591FE3 /* AuthSession.swift */; };
 		4D7A35192B418AD700FC9832 /* KSPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 4D7A35182B418AD700FC9832 /* KSPlayer */; };
 		4D7A351B2B418C3800FC9832 /* DeviceShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7A351A2B418C3800FC9832 /* DeviceShake.swift */; };
 		4D7A351D2B42700900FC9832 /* NFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7A351C2B42700900FC9832 /* NFS.swift */; };
@@ -62,6 +63,7 @@
 		4D0538682B3DB801000D4193 /* DriveInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveInfoModel.swift; sourceTree = "<group>"; };
 		4D05386C2B3DB801000D4193 /* SmbDAVAsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmbDAVAsyncImage.swift; sourceTree = "<group>"; };
 		4D05386E2B3DB801000D4193 /* WebDAV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebDAV.swift; sourceTree = "<group>"; };
+		4D1D58B52B4528B900591FE3 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
 		4D7A35162B418A9B00FC9832 /* FFmpegKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FFmpegKit; path = KSPlayer/FFmpegKit; sourceTree = "<group>"; };
 		4D7A35172B418AAF00FC9832 /* KSPlayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = KSPlayer; sourceTree = "<group>"; };
 		4D7A351A2B418C3800FC9832 /* DeviceShake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceShake.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				4D05386E2B3DB801000D4193 /* WebDAV.swift */,
 				4D84B8152B40503F00EFBED1 /* SMB.swift */,
 				4D7A351C2B42700900FC9832 /* NFS.swift */,
+				4D1D58B52B4528B900591FE3 /* AuthSession.swift */,
 				4D7A351A2B418C3800FC9832 /* DeviceShake.swift */,
 				4D0538562B3DB78D000D4193 /* Assets.xcassets */,
 				4D0538582B3DB78D000D4193 /* Preview Content */,
@@ -254,6 +257,7 @@
 				4D0538742B3DB801000D4193 /* DriveInfoModel.swift in Sources */,
 				4D0538792B3DB801000D4193 /* WebDAV.swift in Sources */,
 				4D0538532B3DB78C000D4193 /* SmbDAVApp.swift in Sources */,
+				4D1D58B62B4528B900591FE3 /* AuthSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

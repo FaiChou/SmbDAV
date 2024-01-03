@@ -52,6 +52,14 @@ enum WebDAVError: Error {
 class WebDAV: SmbDAVDrive {
     var baseURL: URL
     var auth: String
+    var delegate: SessionDelegate
+    var session: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        let proxyDict = [AnyHashable : Any]()
+        configuration.connectionProxyDictionary = proxyDict
+        configuration.timeoutIntervalForRequest = 20
+        return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
+    }()
     init(baseURL: String, port: Int, username: String, password: String, subfolder: String) {
         let processedBaseURL: String
         if baseURL.hasPrefix("http://") || baseURL.hasPrefix("https://") {
@@ -72,6 +80,7 @@ class WebDAV: SmbDAVDrive {
         let authString = username + ":" + password
         let authData = authString.data(using: .utf8)
         self.auth = authData?.base64EncodedString() ?? ""
+        self.delegate = SessionDelegate(user: username, password: password)
     }
 }
 
@@ -88,9 +97,10 @@ extension WebDAV {
         }
     }
     func listFiles(atPath path: String) async throws -> [SmbDAVFile] {
-        guard var request = authorizedRequest(path: path, method: "PROPFIND") else {
-            throw WebDAVError.invalidCredentials
-        }
+        let url = self.baseURL.appendingPathComponent(path)
+        var request = URLRequest(url: url)
+        request.httpMethod = "PROPFIND"
+        request.setValue("1", forHTTPHeaderField: "Depth")
         let body =
 """
 <?xml version="1.0" encoding="utf-8" ?>
@@ -105,7 +115,7 @@ extension WebDAV {
 """
         request.httpBody = body.data(using: .utf8)
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await self.session.data(for: request, delegate: self.delegate)
             guard let response = response as? HTTPURLResponse,
                   200...299 ~= response.statusCode,
                   let string = String(data: data, encoding: .utf8) else {
@@ -125,11 +135,11 @@ extension WebDAV {
         }
     }
     func deleteFile(file: SmbDAVFile) async throws -> Bool {
-        guard let request = authorizedRequest(path: file.path, method: "DELETE") else {
-            throw WebDAVError.invalidCredentials
-        }
+        let url = self.baseURL.appendingPathComponent(file.path)
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
+            let (_, response) = try await self.session.data(for: request, delegate: self.delegate)
             guard let response = response as? HTTPURLResponse else {
                 return false
             }
@@ -140,25 +150,13 @@ extension WebDAV {
     }
     func getImage(file: SmbDAVFile) async -> UIImage? {
         let url = self.baseURL.appendingPathComponent(file.path)
-        var request = URLRequest(url: url)
-        request.addValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
+        let request = URLRequest(url: url)
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await self.session.data(for: request, delegate: self.delegate)
             guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching attchment") }
             return UIImage(data: data)
         } catch {
             return nil
         }
-    }
-}
-
-extension WebDAV {
-    func authorizedRequest(path: String, method: String) -> URLRequest? {
-        let url = self.baseURL.appendingPathComponent(path)
-        var request = URLRequest(url: url)
-        request.httpMethod = method
-        request.setValue("Basic \(self.auth)", forHTTPHeaderField: "Authorization")
-        request.setValue("1", forHTTPHeaderField: "Depth")
-        return request
     }
 }
