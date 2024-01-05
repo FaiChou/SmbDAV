@@ -81,12 +81,14 @@ struct SmbDAVFile: Identifiable, Hashable, Equatable {
     }()
 
     static func removing(endOf string1: String, from string2: String) -> String {
-        guard let first = string2.first else { return string2 }
-        for (i, c) in string1.enumerated() {
+        let decodedString1 = string1.removingPercentEncoding ?? string1
+        let decodedString2 = string2.removingPercentEncoding ?? string2
+        guard let first = decodedString2.first else { return string2 }
+        for (i, c) in decodedString1.enumerated() {
             guard c == first else { continue }
-            let end = string1.dropFirst(i)
-            if string2.hasPrefix(end) {
-                return String(string2.dropFirst(end.count))
+            let end = decodedString1.dropFirst(i)
+            if decodedString2.hasPrefix(end) {
+                return String(decodedString2.dropFirst(end.count))
             }
         }
         return string2
